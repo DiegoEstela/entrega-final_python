@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Tu Página{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <style>
+          html,
+          body {
+            height: 100%;
+          }
+          body {
+            display: flex;
+            flex-direction: column;
+          }
+          .content {
+            flex: 1;
+          }
+           .username-box {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        font-size: 16px;
+        margin-left: 1rem;
+        {% if user.is_authenticated %}
+          background-color: white;
+          color: gray;
+        {% else %}
+          background-color: gray;
+          color: white;
+        {% endif %}
+      }
+          .nav-item a.nav-link.disabled {
+            pointer-events: none;
+          }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{% url 'home' %}">Mi Sitio Web</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a
+              class="nav-link {% if not user.is_authenticated %}disabled{% endif %}"
+              href="{% if user.is_authenticated %}{% url 'blog_list' %}{% else %}#{% endif %}"
+              >Inicio</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {% if not user.is_authenticated %}disabled{% endif %}"
+              href="#"
+              >Crear nuevo blog</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {% if not user.is_authenticated %}disabled{% endif %}"
+              href="{% if user.is_authenticated %}{% url 'logout' %}?next={% url 'login' %}{% else %}#{% endif %}"
+              >Cerrar Sesión</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="username-box">
+        {% if user.is_authenticated %} {% if user.username %}
+        {{user.username|first|upper}} {% else %} &nbsp; {% endif %} {% else %}
+        &nbsp; {% endif %}
+      </div>
+    </nav>
+
+    <div class="container mt-4 content">{% block content %} {% endblock %}</div>
+
+    <footer class="bg-dark text-white text-center py-3">
+      &copy; 2023 Mi Sitio Web
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{% extends "blogapp/base.html" %} {% block content %}
+<h1>Blogs</h1>
+{% for blog in blogs %}
+<div class="card mb-3">
+  <div class="card-body">
+    <h2 class="card-title">
+      <a href="{% url 'blog_detail' blog.id %}">{{ blog.title }}</a>
+    </h2>
+    <p class="card-text">{{ blog.subtitle }}</p>
+  </div>
+</div>
+{% empty %}
+<div class="alert alert-info" role="alert">No hay blogs disponibles.</div>
+{% endfor %} {% endblock %}
