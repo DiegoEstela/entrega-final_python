@@ -1,33 +1,34 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import CustomUserCreationForm, LoginForm
+from .forms import CustomUserCreationForm, LoginForm, BlogForm
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView
-from django.contrib import messages
 from .models import Blog, UserProfile
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.models import User
 
 
 def home(request):
-    # Si el usuario está autenticado, redirige a la lista de blogs
     if request.user.is_authenticated:
         return redirect('blog_list')
     else:
-        # Si no está autenticado, redirige a la página de inicio de sesión
         return redirect('login')
+
+
+def about_me(request):
+    return render(request, 'blogapp/about_me.html')
 
 
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # Guarda el usuario
-            user = form.save()
-
-            # Crea el UserProfile asociado al usuario
+            user = form.save(commit=False)
+            user.email = form.cleaned_data['email']
+            user.save()
             user_profile = UserProfile(
-                user=user, username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
+                user=user, username=form.cleaned_data['username'], password=form.cleaned_data['password1'], email=form.cleaned_data['email'])
             user_profile.save()
 
-            # Redirige al login si el registro es exitoso
             return redirect('login')
     else:
         form = CustomUserCreationForm()
@@ -38,21 +39,15 @@ def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-
-            # Verificar si el usuario existe en el modelo UserProfile
             try:
-                user_profile = UserProfile.objects.get(
-                    username=username, password=password)
-                if user_profile:
-                    # Autenticar y redirigir al usuario si existe
-                    user = user_profile.user  # Obtenemos el usuario asociado al UserProfile
+                user = User.objects.get(email=email)
+                if user.check_password(password):
                     login(request, user)
-                    # Cambia 'home' por la URL que desees después del inicio de sesión
                     return redirect('home')
-            except UserProfile.DoesNotExist:
-                pass  # El usuario no existe en UserProfile
+            except User.DoesNotExist:
+                messages.error(request, 'Credenciales inválidas.')
 
     else:
         form = LoginForm()
@@ -60,18 +55,26 @@ def login_view(request):
     return render(request, 'registration/login.html', {'form': form})
 
 
-class CustomLoginView(LoginView):
-    def form_invalid(self, form):
-        messages.error(
-            self.request, 'Nombre de usuario o contraseña incorrectos. Por favor, inténtelo de nuevo.')
-        return super().form_invalid(form)
-
-
 def blog_list(request):
     blogs = Blog.objects.all()
-    return render(request, r'blogapp/blog_list.html', {'blogs': blogs})
+    return render(request, 'blogapp/blog_list.html', {'blogs': blogs})
 
 
 def blog_detail(request, blog_id):
     blog = get_object_or_404(Blog, pk=blog_id)
-    return render(request, r'blogapp/blog_detail.html', {'blog': blog})
+    return render(request, 'blogapp/blog_detail.html', {'blog': blog})
+
+
+@login_required
+def create_blog(request):
+    if request.method == 'POST':
+        form = BlogForm(request.POST, request.FILES)
+        if form.is_valid():
+            blog = form.save(commit=False)
+            blog.author = request.user
+            blog.save()
+            return redirect('blog_list')
+    else:
+        form = BlogForm()
+
+    return render(request, 'blogapp/create_blog.html', {'form': form})

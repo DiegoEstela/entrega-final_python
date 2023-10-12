@@ -1,13 +1,24 @@
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django import forms
+from .models import Blog
 
 
 class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
     class Meta(UserCreationForm.Meta):
-        fields = UserCreationForm.Meta.fields
+        model = User
+        fields = UserCreationForm.Meta.fields + ('email',)
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='Nombre de usuario', max_length=100)
+    email = forms.EmailField(label='Email')
     password = forms.CharField(
         label='Contraseña', widget=forms.PasswordInput())
+
+
+class BlogForm(forms.ModelForm):
+    class Meta:
+        model = Blog
+        fields = ['title', 'subtitle', 'body', 'image']

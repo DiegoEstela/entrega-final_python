@@ -1,0 +1,17 @@
+{% extends "blogapp/base.html" %} {% block title %} Detalles del Blog - {{
+blog.title }} {% endblock %} {% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ blog.title }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{ blog.subtitle }}</h6>
+      <p class="card-text">{{ blog.body }}</p>
+      <p class="card-text">Autor: {{ blog.author.username }}</p>
+      <p class="card-text">Fecha de publicación: {{ blog.date }}</p>
+      {% if blog.image %}
+      <img src="{{ blog.image.url }}" alt="Imagen del blog" class="img-fluid" />
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

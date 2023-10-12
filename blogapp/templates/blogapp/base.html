@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Tu Página{% endblock %}</title>
+    <title>{% block title %}Blog by Diego Estela{% endblock %}</title>
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -68,7 +68,14 @@
           <li class="nav-item">
             <a
               class="nav-link {% if not user.is_authenticated %}disabled{% endif %}"
-              href="#"
+              href="{% if user.is_authenticated %}{% url 'about_me' %}{% else %}#{% endif %}"
+              >Acerca de mi</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {% if not user.is_authenticated %}disabled{% endif %}"
+              href="{% if user.is_authenticated %}{% url 'create_blog' %}{% else %}#{% endif %}"
               >Crear nuevo blog</a
             >
           </li>
@@ -91,7 +98,7 @@
     <div class="container mt-4 content">{% block content %} {% endblock %}</div>
 
     <footer class="bg-dark text-white text-center py-3">
-      &copy; 2023 Mi Sitio Web
+      &copy; 2023 Blog by Diego Estela
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

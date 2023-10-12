@@ -1,0 +1,47 @@
+{% extends "blogapp/base.html" %} {% load static %} {% block content %}
+<style>
+  .about-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .about-image {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .about-description {
+    margin-top: 20px;
+  }
+</style>
+
+<div class="about-container">
+  <h1>Acerca de mí</h1>
+  <img
+    src="{% static 'images/profile.jpeg' %}"
+    alt="Mi imagen"
+    width="100"
+    height="100"
+    class="about-image"
+  />
+
+  <p class="about-description"></p>
+  <h2>¡Hola, soy Diego Estela!</h2>
+  <p>
+    Soy desarrollador Frontend javascript con experiencia en tecnologías
+    mern-stack (MongoDB, Express.js, React.js y Node.js). Me encanta trabajar
+    con datos y estoy profundizando mis conocimientos en Python.
+  </p>
+  <p>
+    Mi objetivo es crear aplicaciones web eficientes y atractivas para los
+    usuarios. Estoy comprometido con el aprendizaje continuo y siempre estoy
+    buscando nuevas oportunidades para mejorar mis habilidades.
+  </p>
+  <p>
+    Siempre estoy abierto a colaboraciones y nuevos desafíos en el mundo de la
+    tecnología. ¡No dudes en contactarme si quieres trabajar juntos!
+  </p>
+</div>
+{% endblock %}

@@ -18,6 +18,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, default=1)
     username = models.CharField(max_length=150, unique=True)
     password = models.CharField(max_length=128)
+    email = models.EmailField(unique=True, default=1)
 
     def __str__(self):
         return self.username
