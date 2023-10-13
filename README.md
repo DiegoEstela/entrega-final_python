@@ -2,6 +2,10 @@
 
 Travel blog project es una aplicación web desarrollada utilizando Django y Python. Es una plataforma que te permite descubrir, crear y compartir blogs fascinantes sobre viajes.
 
+## Video Demostracion
+
+[screen-capture (24).webm](https://github.com/DiegoEstela/entrega-final_python/assets/83254494/c15c9183-f9fc-43bf-aa74-381976894398)
+
 ## Cómo Probar
 
 1. Clona este repositorio.
@@ -9,8 +13,7 @@ Travel blog project es una aplicación web desarrollada utilizando Django y Pyth
 3. Activa el entorno virtual: `source venv/bin/activate` (Linux/Mac) o `venv\Scripts\activate` (Windows).
 4. Instala las dependencias: `pip install -r requirements.txt`.
 5. Realiza las migraciones: `python manage.py migrate`.
-6. Crea un superusuario: `python manage.py createsuperuser`.
-7. Inicia el servidor: `python manage.py runserver`.
+6. Inicia el servidor: `python manage.py runserver`.
 
 ## Funcionalidades
 
