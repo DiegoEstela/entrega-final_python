@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import CustomUserCreationForm, LoginForm, BlogForm
+from .forms import CustomUserCreationForm, LoginForm, BlogForm, UserProfileUpdateForm
 from django.contrib.auth import login
 from .models import Blog, UserProfile
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 
 
 def home(request):
@@ -78,3 +79,19 @@ def create_blog(request):
         form = BlogForm()
 
     return render(request, 'blogapp/create_blog.html', {'form': form})
+
+
+@login_required
+def update_user_profile(request):
+    if request.method == 'POST':
+        form = UserProfileUpdateForm(
+            request.POST, instance=request.user.userprofile)
+
+        if form.is_valid():
+            form.save()
+            return redirect(reverse_lazy('home'))
+
+    else:
+        form = UserProfileUpdateForm(instance=request.user.userprofile)
+
+    return render(request, 'registration/update_profile.html', {'form': form})

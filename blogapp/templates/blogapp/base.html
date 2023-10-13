@@ -88,11 +88,14 @@
           </li>
         </ul>
       </div>
-      <div class="username-box">
+      <a
+        class="username-box"
+        href="{% if user.is_authenticated %}{% url 'update_profile' %}{% else %}#{% endif %}"
+      >
         {% if user.is_authenticated %} {% if user.username %}
         {{user.username|first|upper}} {% else %} &nbsp; {% endif %} {% else %}
         &nbsp; {% endif %}
-      </div>
+      </a>
     </nav>
 
     <div class="container mt-4 content">{% block content %} {% endblock %}</div>

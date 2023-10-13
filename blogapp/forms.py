@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Blog
+from .models import Blog, UserProfile
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -22,3 +22,9 @@ class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
         fields = ['title', 'subtitle', 'body', 'image']
+
+
+class UserProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['username', 'password', 'email']
