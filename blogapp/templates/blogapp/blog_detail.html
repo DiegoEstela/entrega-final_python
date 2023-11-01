@@ -1,5 +1,5 @@
-{% extends "blogapp/base.html" %} {% block title %} Detalles del Blog - {{
-blog.title }} {% endblock %} {% block content %}
+{% extends "blogapp/base.html" %} {% block title %}Detalles del Blog - {{
+blog.title }}{% endblock %} {% block content %}
 <div class="container mt-4">
   <div class="card">
     <div class="card-body">
@@ -8,10 +8,28 @@ blog.title }} {% endblock %} {% block content %}
       <p class="card-text">{{ blog.body }}</p>
       <p class="card-text">Autor: {{ blog.author.username }}</p>
       <p class="card-text">Fecha de publicación: {{ blog.date }}</p>
+
       {% if blog.image %}
       <img src="{{ blog.image.url }}" alt="Imagen del blog" class="img-fluid" />
       {% endif %}
     </div>
+    <div class="footer">
+      {% if user.is_authenticated and user == blog.author %}
+      <a href="{% url 'delete_blog' blog.id %}" class="btn btn-danger btn-sm"
+        >Eliminar</a
+      >
+      <a href="{% url 'edit_blog' blog.id %}" class="btn btn-primary btn-sm"
+        >Editar</a
+      >
+      {% endif %}
+    </div>
   </div>
 </div>
+<style>
+  .footer {
+    width: 200px;
+    margin: 20px auto;
+    text-align: center;
+  }
+</style>
 {% endblock %}

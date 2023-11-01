@@ -6,6 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
+from django.views.generic.edit import DeleteView
+from django.urls import reverse_lazy
+from .models import Blog
+from django.views.generic.edit import UpdateView
 
 
 def home(request):
@@ -95,3 +99,16 @@ def update_user_profile(request):
         form = UserProfileUpdateForm(instance=request.user.userprofile)
 
     return render(request, 'registration/update_profile.html', {'form': form})
+
+
+class BlogDeleteView(DeleteView):
+    model = Blog
+    template_name = 'blogapp/blog_confirm_delete.html'
+    success_url = reverse_lazy('blog_list')
+
+
+class BlogUpdateView(UpdateView):
+    model = Blog
+    template_name = 'blogapp/edit_blog.html'
+    form_class = BlogForm
+    success_url = reverse_lazy('blog_list')

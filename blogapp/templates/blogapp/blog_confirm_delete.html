@@ -1,0 +1,25 @@
+{% extends "blogapp/base.html" %} {% block title %}Confirmar Eliminar - {{
+blog.title }}{% endblock %} {% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-body">
+      <h1>Confirmar Eliminar</h1>
+      <p>¿Estás seguro de que quieres eliminar el blog "{{ blog.title }}"?</p>
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+      </form>
+      <a href="{% url 'blog_list' %}" class="btn btn-primary">Cancelar</a>
+    </div>
+  </div>
+
+  <div class="footer"></div>
+</div>
+<style>
+  .footer {
+    width: 200px;
+    margin: 20px auto;
+    text-align: center;
+  }
+</style>
+{% endblock %}
