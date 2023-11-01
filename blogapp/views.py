@@ -20,18 +20,27 @@ def home(request):
 
 
 def about_me(request):
-    return render(request, 'blogapp/about_me.html')
+    user_profile = UserProfile.objects.get(user=request.user)
+    return render(request, 'blogapp/about_me.html', {'user_profile': user_profile})
 
 
 def signup(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
             user.email = form.cleaned_data['email']
             user.save()
+
             user_profile = UserProfile(
-                user=user, username=form.cleaned_data['username'], password=form.cleaned_data['password1'], email=form.cleaned_data['email'])
+                user=user,
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1'],
+                email=form.cleaned_data['email'],
+                avatar=form.cleaned_data['avatar'],
+                description=form.cleaned_data['description'],
+                portfolio_link=form.cleaned_data['portfolio_link']
+            )
             user_profile.save()
 
             return redirect('login')
@@ -89,11 +98,15 @@ def create_blog(request):
 def update_user_profile(request):
     if request.method == 'POST':
         form = UserProfileUpdateForm(
-            request.POST, instance=request.user.userprofile)
+            request.POST, request.FILES, instance=request.user.userprofile)
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Perfil actualizado exitosamente.')
             return redirect(reverse_lazy('home'))
+        else:
+            messages.error(
+                request, 'Hubo un error al actualizar el perfil. Verifica los datos.')
 
     else:
         form = UserProfileUpdateForm(instance=request.user.userprofile)

@@ -20,28 +20,21 @@
 <div class="about-container">
   <h1>Acerca de mí</h1>
   <img
-    src="{% static 'images/profile.jpeg' %}"
+    src="{% if user_profile.avatar %}{{ user_profile.avatar.url }}{% else %}{% static 'images/default_avatar.png' %}{% endif %}"
     alt="Mi imagen"
-    width="100"
-    height="100"
+    width="200"
+    height="200"
     class="about-image"
   />
 
   <p class="about-description"></p>
-  <h2>¡Hola, soy Diego Estela!</h2>
-  <p>
-    Soy desarrollador Frontend javascript con experiencia en tecnologías
-    mern-stack (MongoDB, Express.js, React.js y Node.js). Me encanta trabajar
-    con datos y estoy profundizando mis conocimientos en Python.
-  </p>
-  <p>
-    Mi objetivo es crear aplicaciones web eficientes y atractivas para los
-    usuarios. Estoy comprometido con el aprendizaje continuo y siempre estoy
-    buscando nuevas oportunidades para mejorar mis habilidades.
-  </p>
-  <p>
-    Siempre estoy abierto a colaboraciones y nuevos desafíos en el mundo de la
-    tecnología. ¡No dudes en contactarme si quieres trabajar juntos!
-  </p>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ user_profile.user.username }}</h5>
+      <p class="card-text">{{ user_profile.description }}</p>
+      <p class="card-text">Correo electrónico: {{ user_profile.user.email }}</p>
+      <p class="card-text">Link Porfolio: {{ user_profile.portfolio_link }}</p>
+    </div>
+  </div>
 </div>
 {% endblock %}

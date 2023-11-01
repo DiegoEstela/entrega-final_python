@@ -6,10 +6,14 @@ from .models import Blog, UserProfile
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    avatar = forms.ImageField(required=False)
+    description = forms.CharField(required=False)
+    portfolio_link = forms.URLField(required=False)
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = UserCreationForm.Meta.fields + ('email',)
+        fields = UserCreationForm.Meta.fields + \
+            ('email', 'avatar', 'description', 'portfolio_link')
 
 
 class LoginForm(forms.Form):
@@ -27,4 +31,5 @@ class BlogForm(forms.ModelForm):
 class UserProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['username', 'password', 'email']
+        fields = ['username', 'password', 'email',
+                  'avatar', 'description', 'portfolio_link']

@@ -14,6 +14,4 @@ urlpatterns = [
     path('update_profile/', update_user_profile, name='update_profile'),
     path('pages/<int:pk>/delete/', BlogDeleteView.as_view(), name='delete_blog'),
     path('pages/<int:pk>/edit/', BlogUpdateView.as_view(), name='edit_blog'),
-
-
 ]

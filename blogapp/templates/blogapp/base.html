@@ -9,18 +9,18 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     />
     <style>
-          html,
-          body {
-            height: 100%;
-          }
-          body {
-            display: flex;
-            flex-direction: column;
-          }
-          .content {
-            flex: 1;
-          }
-           .username-box {
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+      .content {
+        flex: 1;
+      }
+      .username-box {
         display: inline-block;
         width: 30px;
         height: 30px;
@@ -30,19 +30,20 @@
         font-size: 16px;
         margin-left: 1rem;
         {% if user.is_authenticated %}
-          background-color: white;
-          color: gray;
+        background-color: white;
+        color: gray;
         {% else %}
-          background-color: gray;
-          color: white;
+        background-color: gray;
+        color: white;
         {% endif %}
       }
-          .nav-item a.nav-link.disabled {
-            pointer-events: none;
-          }
+      .nav-item a.nav-link.disabled {
+        pointer-events: none;
+      }
     </style>
   </head>
   <body>
+    {% if user.is_authenticated %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'home' %}">Mi Sitio Web</a>
       <button
@@ -97,6 +98,7 @@
         &nbsp; {% endif %}
       </a>
     </nav>
+    {% endif %}
 
     <div class="container mt-4 content">{% block content %} {% endblock %}</div>
 
