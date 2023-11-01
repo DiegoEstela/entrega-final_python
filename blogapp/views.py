@@ -10,6 +10,7 @@ from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from .models import Blog
 from django.views.generic.edit import UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def home(request):
@@ -114,7 +115,7 @@ def update_user_profile(request):
     return render(request, 'registration/update_profile.html', {'form': form})
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
     template_name = 'blogapp/blog_confirm_delete.html'
     success_url = reverse_lazy('blog_list')
